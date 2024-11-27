@@ -1,0 +1,51 @@
+{
+  "name": "admin-fruit-shop",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@floating-ui/react": "^0.26.25",
+    "@hookform/resolvers": "^3.9.0",
+    "@tanstack/react-query": "^5.59.13",
+    "@tanstack/react-query-devtools": "^4.29.7",
+    "antd": "^5.21.5",
+    "axios": "^1.7.7",
+    "classnames": "^2.5.1",
+    "firebase": "^11.0.2",
+    "framer-motion": "^11.11.15",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-helmet-async": "^2.0.5",
+    "react-hook-form": "^7.53.0",
+    "react-icons": "^5.3.0",
+    "react-query": "^3.39.3",
+    "react-redux": "^9.1.2",
+    "react-router-dom": "^6.27.0",
+    "react-toastify": "^10.0.6",
+    "redux": "^5.0.1",
+    "yup": "^1.4.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.3",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9.13.0",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.14",
+    "globals": "^15.11.0",
+    "postcss": "^8.4.49",
+    "prettier": "^3.3.3",
+    "prettier-plugin-tailwindcss": "^0.6.8",
+    "tailwindcss": "^3.4.15",
+    "vite": "^5.4.10"
+  }
+}
