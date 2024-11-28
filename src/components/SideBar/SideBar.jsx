@@ -1,4 +1,6 @@
 import { useState } from "react";
+import path from "../../constants/path";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -7,8 +9,31 @@ const Sidebar = () => {
 
   const menuItems = [
     {
+      id: "home",
+      label: "Home",
+      link: path.home,
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="size-6"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+          />
+        </svg>
+      ),
+
+    },
+    {
       id: "orders",
       label: "Đơn hàng",
+      link: path.orderManagement,
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -23,6 +48,7 @@ const Sidebar = () => {
     },
     {
       id: "products",
+      link: path.productManagement,
       label: "Sản phẩm",
       icon: (
         <svg
@@ -39,6 +65,7 @@ const Sidebar = () => {
     {
       id: "discounts",
       label: "Giảm giá",
+      link :path.discountManagement,
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -73,21 +100,64 @@ const Sidebar = () => {
         </svg>
       ),
       children: [
-        { id: "monthly-revenue", label: "Báo cáo doanh thu theo tháng" },
-        { id: "product-sales", label: "Báo cáo số lượng sản phẩm bán được" },
+        {
+          id: "monthly-report",
+          link : path.monthlyReport,
+          label: "Doanh thu theo tháng",
+          icon: (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"
+              />
+            </svg>
+          ),
+        },
+        {
+          id: "product-sales",
+          label: "Số lượng sản phẩm bán được",
+          link: path.productReport,
+          icon: (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+              />
+            </svg>
+          ),
+        },
       ],
     },
   ];
 
   return (
     <div
-      className={`h-screen sticky top-0 bg-white text-gray transition-all duration-300 ${
-        isCollapsed ? "w-32" : "w-64"
+      className={`h-screen rounded-lg sticky top-0 bg-white text-gray transition-all duration-300 ${
+        isCollapsed ? "w-20" : "w-64"
       }`}
     >
       <div className="p-4">
         <button
-          onClick={() => setIsCollapsed(!isCollapsed)}
+          onClick={() => {
+            setIsCollapsed(!isCollapsed);
+            setReportsOpen(false);
+          }}
           className="bg-gray-700 p-2 rounded hover:bg-gray-600 focus:outline-none"
         >
           <svg
@@ -114,53 +184,79 @@ const Sidebar = () => {
               {item.children ? (
                 <>
                   <button
-                    onClick={() => setReportsOpen(!isReportsOpen)}
-                    className={`flex items-center justify-between w-full py-2 px-4 rounded transition-all ${
+                    onClick={() => {
+                      if (isCollapsed) setIsCollapsed(false);
+                      setReportsOpen(!isReportsOpen);
+                    }}
+                    className={`flex items-center gap-4 w-full py-2 px-4 rounded transition-all ${
                       activeTab === item.id
                         ? "bg-gray-700"
                         : "hover:bg-gray-700"
                     }`}
                   >
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-2 whitespace-nowrap">
                       <span className="material-icons">{item.icon}</span>
                       {!isCollapsed && <span>{item.label}</span>}
                     </div>
-                    {/* {!isCollapsed && (
-                      <span className="material-icons">
-                        {isReportsOpen ? "expand_less" : "expand_more"}
+                    {!isCollapsed && (
+                      <span
+                        className={`transform transition-transform duration-300 ${
+                          isReportsOpen ? "rotate-90" : "rotate-0"
+                        }`}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="size-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="m8.25 4.5 7.5 7.5-7.5 7.5"
+                          />
+                        </svg>
                       </span>
-                    )} */}
+                    )}
                   </button>
-                  {/* Hiển thị menu con */}
-                  {isReportsOpen && !isCollapsed && (
-                    <ul className="ml-4 space-y-2">
+                  <div
+                    className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                      isReportsOpen ? "max-h-40" : "max-h-0"
+                    }`}
+                  >
+                    <ul className="ml-4 space-y-2 mt-3">
                       {item.children.map((child) => (
                         <li key={child.id}>
-                          <button
+                          <Link to={child.link}
                             onClick={() => setActiveTab(child.id)}
-                            className={`block w-full text-left py-2 px-4 rounded ${
+                            className={`w-full flex text-left px-2 gap-1 rounded  whitespace-nowrap${
                               activeTab === child.id
                                 ? "bg-gray-700"
                                 : "hover:bg-gray-700"
                             }`}
                           >
+                            <span>{child.icon}</span>
                             {child.label}
-                          </button>
+                          </Link>
                         </li>
                       ))}
                     </ul>
-                  )}
+                  </div>
                 </>
               ) : (
-                <button
+                <Link to={item.link}
                   onClick={() => setActiveTab(item.id)}
                   className={`flex items-center space-x-2 py-2 px-4 w-full rounded ${
                     activeTab === item.id ? "bg-gray-700" : "hover:bg-gray-700"
                   }`}
                 >
-                  <span className="material-icons">{item.icon}</span>
-                  {!isCollapsed && <span>{item.label}</span>}
-                </button>
+                  <span>{item.icon}</span>
+                  {!isCollapsed && (
+                    <span className="whitespace-nowrap">{item.label}</span>
+                  )}
+                </Link>
               )}
             </li>
           ))}

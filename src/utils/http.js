@@ -1,6 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import HttpStatusCode from "../constants/httpStatusCode.enum";
+import { jwtDecode } from 'jwt-decode';
 import {
   clearLS,
   getAccessTokenFromLS,
@@ -52,6 +53,15 @@ export class Http {
     this.instance.interceptors.response.use(
       (response) => {
         const { url } = response.config;
+        if(url === URL_LOGIN){
+          const data = response.data;
+          const accessToken = data.data.accessToken;
+          const decode = jwtDecode(accessToken);
+          if(decode.role!== 'ADMIN') {
+            toast.error("Bạn không có quyền truy cập")
+            return ;
+        }
+      }
         if (url === URL_LOGIN || url === URL_VERIFY) {
           const data = response.data;
           this.accessToken = data.data.accessToken;

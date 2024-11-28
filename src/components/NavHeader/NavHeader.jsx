@@ -114,12 +114,12 @@ export default function NavHeader() {
               )}
               {!isAuthenticated && (
                 <div className="flex items-center">
-                  <Link
+                  {/* <Link
                     to={path.register}
                     className="mx-3 capitalize hover:text-primary/70"
                   >
                     Đăng ký
-                  </Link>
+                  </Link> */}
                   <div className="h-4 border-r-[1px] border-r-white/40 "></div>
                   <Link
                     to={path.login}
