@@ -57,7 +57,7 @@ export class Http {
           const data = response.data;
           const accessToken = data.data.accessToken;
           const decode = jwtDecode(accessToken);
-          if(decode.role!== 'ADMIN') {
+          if(decode.role!== 'ROLE_ADMIN') {
             toast.error("Bạn không có quyền truy cập")
             return ;
         }

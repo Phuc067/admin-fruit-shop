@@ -22,7 +22,7 @@ export function isAxiosExpiredTokenError(error) {
 }
 
 export function formatCurrency(num){
-  return `đ ${num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`;
+  return `${num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}đ`;
 };
 
 export function maskEmail(email) {
