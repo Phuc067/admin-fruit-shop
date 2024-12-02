@@ -1,7 +1,6 @@
 import { memo } from "react";
 import { Outlet } from "react-router-dom";
 
-import Footer from "src/components/Footer";
 import NavHeader from "../../components/NavHeader/NavHeader";
 import Sidebar from "../../components/SideBar/SideBar";
 
@@ -15,7 +14,6 @@ function SideBarLayoutInner() {
       {/* {children} */}
       <Outlet/>
       </div>
-      <Footer />
     </div>
   );
 }

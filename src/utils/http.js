@@ -58,8 +58,10 @@ export class Http {
           const accessToken = data.data.accessToken;
           const decode = jwtDecode(accessToken);
           if(decode.role!== 'ROLE_ADMIN') {
-            toast.error("Bạn không có quyền truy cập")
-            return ;
+            toast.error("Bạn không có quyền truy cập");
+            clearLS(); 
+            window.location.href = "/login"; 
+            return Promise.reject(new Error("Unauthorized access"));
         }
       }
         if (url === URL_LOGIN || url === URL_VERIFY) {

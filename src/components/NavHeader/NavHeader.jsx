@@ -35,34 +35,7 @@ export default function NavHeader() {
                 Fruit shop
               </div>
             </Link>
-            <form className="hidden w-[350px] md:block">
-              <div className="flex rounded-full border-2 border-primary bg-white p-1">
-                <input
-                  type="text"
-                  className="flex-grow rounded-full border-none bg-transparent px-3 py-1 text-black outline-none"
-                  placeholder="Tìm kiếm sản phẩm"
-                />
-                <button
-                  type="submit"
-                  className="flex-shrink-0 rounded-full bg-primary px-4 py-1 hover:opacity-90"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="h-6 w-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </form>
+            
             <div className="flex items-center">
               {isAuthenticated && (
                 <Popover

@@ -5,4 +5,5 @@ export const ORDER_TABS = [
   { key: "shipping", label: "Vận chuyển" },
   { key: "delivered", label: "Hoàn thành" },
   { key: "cancelled", label: "Đã hủy" },
+  { key: "returned-refunded", label: "Trả hàng / Hoàn tiền"}
 ];

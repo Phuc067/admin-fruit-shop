@@ -44,3 +44,10 @@ export async function generateHash(file) {
     .map(b => b.toString(16).padStart(2, '0'))
     .join('');
 }
+
+export function composeQueryUrl(url, params = {}) {
+  const searchParams = new URLSearchParams(
+    Object.entries(params).filter(([_, value]) => value !== undefined && value !== null && value !== "").map(([key, value]) => [key, value])
+  );
+  return `${url}?${searchParams.toString()}`;
+}
