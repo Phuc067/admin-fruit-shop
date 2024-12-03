@@ -8,7 +8,7 @@ function SideBarLayoutInner() {
   return (
     <div className="bg-background ">
       <NavHeader />
-      <div className="flex my-2">
+      <div className="flex my-2 flex-grow">
       <Sidebar />
       {/* <Header /> */}
       {/* {children} */}

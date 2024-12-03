@@ -51,3 +51,31 @@ export function composeQueryUrl(url, params = {}) {
   );
   return `${url}?${searchParams.toString()}`;
 }
+
+export const formatTime = (time) => {
+  const date = new Date(time);
+
+  // Đảm bảo rằng thời gian là hợp lệ
+  if (isNaN(date)) {
+    return null; // Nếu không hợp lệ, trả về null
+  }
+
+  // Định dạng thời gian theo dd/mm/yyyy hh:mm:ss theo UTC
+  const formattedTime = date.toLocaleString("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    timeZone: 'UTC', // Đảm bảo là múi giờ UTC
+  });
+
+  const [datePart, timePart] = formattedTime.split(", ");
+  
+  const [day, month, year] = datePart.split("/");
+  
+  const formattedDate = `${timePart} ${day}/${month}/${year}`;
+
+  return formattedDate;
+}

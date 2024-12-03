@@ -1,7 +1,9 @@
 import Button from "../../../../components/Button";
 import PropTypes from "prop-types";
+import StateInfo from "../StateInfo";
 
 export default function StateAction({ order, onAction }) {
+
   const stateButtons = {
     pending: [
       {
@@ -44,12 +46,15 @@ export default function StateAction({ order, onAction }) {
       },
     ],
   };
-  const handleTransferState = () => {};
+  const handleTransferState = () => { };
 
   const buttonsForState = stateButtons[order.state] || [];
 
   return (
-    <div className="w-full flex justify-end py-4 px-10">
+    <div className="w-full flex justify-between py-4 pr-10 pl-2">
+      <div className="flex items-center">
+        <StateInfo order={order} />
+      </div>
       <div className="flex gap-2">
         {buttonsForState.map((button, index) => (
           <Button

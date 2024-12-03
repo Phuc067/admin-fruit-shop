@@ -4,8 +4,8 @@ import { composeQueryUrl } from '../utils/utils'
 const URL = 'api/public/products'
 
 const productApi = {
-  getProducts({keyword, sortType}) {
-    return http.get(composeQueryUrl(URL, {keyword, sortType}), {})
+  getPageProducts(page, amount, keyword, sortType) {
+    return http.get(composeQueryUrl(URL, {page, amount, keyword, sortType}))
   },
   getProductDetail(id) {
     return http.get(`${URL}/${id}`)
