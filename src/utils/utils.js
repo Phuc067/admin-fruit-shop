@@ -21,10 +21,15 @@ export function isAxiosExpiredTokenError(error) {
   );
 }
 
-export function formatCurrency(num){
-  return `${num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}đ`;
-};
-
+export function formatCurrency(num) {
+  if (num || num === 0) {  
+    const number = parseFloat(num); 
+    if (!isNaN(number)) {  
+      return `${number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}đ`;
+    }
+  }
+  return '0đ';
+}
 export function maskEmail(email) {
   const [localPart, domain] = email.split("@");
   if (localPart.length <= 2) {
@@ -55,12 +60,10 @@ export function composeQueryUrl(url, params = {}) {
 export const formatTime = (time) => {
   const date = new Date(time);
 
-  // Đảm bảo rằng thời gian là hợp lệ
   if (isNaN(date)) {
-    return null; // Nếu không hợp lệ, trả về null
+    return null;
   }
 
-  // Định dạng thời gian theo dd/mm/yyyy hh:mm:ss theo UTC
   const formattedTime = date.toLocaleString("en-GB", {
     hour: "2-digit",
     minute: "2-digit",
@@ -68,7 +71,7 @@ export const formatTime = (time) => {
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
-    timeZone: 'UTC', // Đảm bảo là múi giờ UTC
+    timeZone: 'UTC', 
   });
 
   const [datePart, timePart] = formattedTime.split(", ");

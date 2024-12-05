@@ -11,6 +11,7 @@ const Login = lazy(() => import("./pages/Login"));
 const Home = lazy(() => import("./pages/Home"));
 const OrderManagement = lazy(() => import("./pages/OrderManagement"));
 const ProductManagement = lazy(() => import("./pages/ProductManagement"));
+const ProductDetail = lazy(()=> import("./pages/ProductDetail"));
 const DiscountManagement = lazy(() => import("./pages/DiscountManagement"));
 const MonthlyReport = lazy(() => import("./pages/MonthlyReport"));
 const ProductReport = lazy(() => import("./pages/ProductReport"));
@@ -69,13 +70,24 @@ export default function useRouteElements() {
               ),
             },
             {
-              index: true,
+              index:true,
               path: path.productManagement,
               element: (
                 <Suspense>
                   <ProductManagement/>
                 </Suspense>
               ),
+             
+            },
+            {
+              index:true,
+              path: path.productDetail,
+              element: (
+                <Suspense>
+                  <ProductDetail/>
+                </Suspense>
+              ),
+             
             },
             {
               index: true,

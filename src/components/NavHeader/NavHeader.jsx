@@ -42,7 +42,7 @@ export default function NavHeader() {
                   className="ml-6 flex cursor-pointer items-center py-1 hover:text-white/70"
                   renderPopover={
                     <div className="relative rounded-[10px] border  border-gray-200 bg-transparent/80 text-white shadow-md transition-all">
-                      <Link
+                      {/* <Link
                         to={path.profile}
                         className="block w-full py-3 pl-4 pr-8 text-left hover:text-primary"
                       >
@@ -53,7 +53,7 @@ export default function NavHeader() {
                         className="block w-full py-3 pl-4 pr-8 text-left hover:text-primary"
                       >
                         Đơn hàng đã mua
-                      </Link>
+                      </Link> */}
                       <button
                         onClick={handleLogout}
                         className="block w-full py-3 pl-4 pr-8 text-left hover:text-primary"
@@ -81,7 +81,7 @@ export default function NavHeader() {
                     to={path.profile}
                     className="hidden text-base md:flex  hover:text-primary/70"
                   >
-                    {profile?.name ?? profile?.email}
+                    admin
                   </Link>
                 </Popover>
               )}
@@ -102,7 +102,7 @@ export default function NavHeader() {
                   </Link>
                 </div>
               )}
-              {isAuthenticated && (
+              {/* {isAuthenticated && (
                 <div className="flex items-center hover:text-primary/70 relative">
                   <Link to={path.cart} className="mx-3 capitalize">
                     {cart > 0 && (
@@ -126,45 +126,14 @@ export default function NavHeader() {
                     </svg>
                   </Link>
                 </div>
-              )}
-              <HiBars3
+              )} */}
+              {/* <HiBars3
                 className="ml-6 h-6 w-6 md:hidden"
                 onClick={() => setIsOpenMenu(true)}
-              />
+              /> */}
             </div>
           </div>
-          <div className="mt-[20px] flex items-center justify-between">
-            <form className="w-full md:hidden">
-              <div className="flex rounded-full border-2 border-primary bg-white p-1">
-                <input
-                  type="text"
-                  className="flex-grow rounded-full border-none bg-transparent px-3 py-1 text-black outline-none"
-                  placeholder="tìm kiếm sản phẩm"
-                />
-                <button
-                  type="submit"
-                  className="flex-shrink-0 rounded-full bg-primary px-4 py-1 hover:opacity-90"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="h-6 w-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </form>
-            <div className="ml-4 md:hidden">{/* <Notification /> */}</div>
-          </div>
-          <button
+          {/* <button
             className={classNames(
               "fixed right-0 top-0 z-[9] h-screen w-screen bg-quaternary/70",
               {
@@ -253,7 +222,7 @@ export default function NavHeader() {
             >
               Tài khoản
             </NavLink>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

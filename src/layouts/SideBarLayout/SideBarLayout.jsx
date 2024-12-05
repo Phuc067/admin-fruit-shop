@@ -9,7 +9,10 @@ function SideBarLayoutInner() {
     <div className="bg-background ">
       <NavHeader />
       <div className="flex my-2 flex-grow">
-      <Sidebar />
+      <div className="bg-white">
+      <Sidebar/>
+
+      </div>
       {/* <Header /> */}
       {/* {children} */}
       <Outlet/>

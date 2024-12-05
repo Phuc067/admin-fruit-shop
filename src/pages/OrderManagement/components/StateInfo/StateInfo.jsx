@@ -6,7 +6,7 @@ const StateInfo = ({ order }) => {
   const stateInfo = {
     pending: () => (
       <span>
-        {order.orderLog?.log} bởi {order.orderLog?.performedBy} vào lúc {formatTime(order.orderDate)}.
+        {order.orderLog?.log}, được đặt bởi {order.orderLog?.performedBy} vào lúc {formatTime(order.orderDate)}.
       </span>
     ),
     awaitingPayment: () => (
@@ -15,19 +15,40 @@ const StateInfo = ({ order }) => {
       </span>
     ),
     preparing: () => (
-      <span>
-        {order.orderLog?.log} : {formatTime(order.orderLog?.time)}.
-      </span>
+      <div className="flex gap-5">
+        <span>
+          {order.orderLog?.log} : {formatTime(order.orderLog?.time)}.
+        </span>
+        {
+          order?.isPaid && <span className="bg-primary text-white rounded-md px-2">
+            Đã thanh toán
+          </span>
+        }
+      </div>
     ),
     shipping: () => (
-      <span>
-        {order.orderLog?.log} : {formatTime(order.orderLog?.time)}.
-      </span>
+     <div className="flex gap-5">
+        <span>
+          {order.orderLog?.log} : {formatTime(order.orderLog?.time)}.
+        </span>
+        {
+          order?.isPaid && <span className="bg-primary text-white rounded-md px-2">
+            Đã thanh toán
+          </span>
+        }
+      </div>
     ),
     returned: () => (
-      <span>
-        {order.orderLog?.log} : {formatTime(order.orderLog?.time)}.
-      </span>
+      <div className="flex gap-5">
+        <span>
+          {order.orderLog?.log} : {formatTime(order.orderLog?.time)}.
+        </span>
+        {
+          order?.isPaid && <span className="bg-primary text-white rounded-md px-2">
+            Đã thanh toán
+          </span>
+        }
+      </div>
     ),
     refunded: () => (
       <span>

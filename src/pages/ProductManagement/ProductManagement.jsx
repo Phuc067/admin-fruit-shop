@@ -1,21 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
-
-import { Modal } from 'antd';
 import productApi from "../../apis/product.api";
 import { Pagination } from 'antd';
 import { useState } from "react";
 import Loading from "../../components/Loading";
 import { formatCurrency } from "../../utils/utils";
 import ProductForm from "./components";
-
+import {  Popconfirm } from 'antd';
+import { Link } from "react-router-dom";
+import path from "../../constants/path";
 export default function ProductManagement() {
 
   const [keyword, setKeyword] = useState("");
   const numberItemInPage = 10;
   const [sortType, setSortType] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  
+
   const [loading, setLoading] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
@@ -60,14 +59,22 @@ export default function ProductManagement() {
     setModalOpen(false);
   };
 
+  const confirmDelete = (e) => {
+    console.log(e);
+    // message.success('Click on Yes');
+  };
+  const cancelDelete = (e) => {
+    console.log(e);
+    // message.error('Click on No');
+  };
 
   return (
     <>
       <div className="mx-3 bg-white w-full rounded-md">
         <div className="w-full flex items-center mt-4 flex-col ">
-          <div className="w-full xl:w-[80%] hidden md:flex justify-between pb-4 gap-2">
-            <div className="flex gap-4 items-center">
-              <div className="flex rounded-full border-2 border-primary w-[350px] bg-white p-1 flex-shrink-0 h-12 ">
+          <div className="w-full flex pt-4 pb-6 gap-2 lg:px-4">
+            <div className="w-[70%] flex gap-4 items-center flex-wrap lg:flex-nowrap justify-center">
+              <div className="flex rounded-full border-2 border-primary w-[350px] bg-white p-1 h-12 ">
                 <input
                   type="text"
                   className="flex-grow rounded-full border-none bg-transparent px-3 py-1 text-black outline-none"
@@ -112,7 +119,9 @@ export default function ProductManagement() {
                 </select>
               </div>
             </div>
-            <button onClick={()=> showProductModal(null)}  className="bg-primary rounded-full text-white h-12 px-4 py-1">Thêm sản phẩm</button>
+            <div className="flex-grow relative items-center flex">
+              <button onClick={() => showProductModal(null)} className="bg-primary lg:absolute lg:right-16 rounded-full text-sm lg:text-base text-white h-8 px-4 py-1 mr-4 lg:mr-0 text-nowrap">Thêm sản phẩm</button>
+            </div>
           </div>
           <div className="bg-background w-full">
             {isLoading ? (
@@ -120,37 +129,55 @@ export default function ProductManagement() {
             ) : (
               <div className="mb-4">
                 {data?.data?.data?.content?.map((item, index) => (
-                  <div key={index} className=" flex bg-white mt-4 rounded-md items-center gap-3">
-                    <div className="object-cover h-48 w-48 relative p-4 rounded-md overflow-hidden">
-                      <img src={item.image} alt="" />
-                      <span className="absolute top-[0px] right-[0px] bg-secondary text-white p-2 rounded-full shadow-lg text-sm font-bold">- {item.discountPercentage}% </span>
-                    </div>
-                    <div className="flex flex-col gap-2 flex-grow">
-                      <span>Mã sản phẩm: {item.id}</span>
-                      <span>{item.title}</span>
-                      <span>Số lượng còn lại : {item.quantity}</span>
-                    </div>
-                    <div className="w-40 flex justify-end">
-                      {item.discountPercentage ? (
-                        <span className="text-decoration-line-through">
-                          {item.price}{" "}
-                        </span>
-                      ) : (
-                        <></>
-                      )}
-                      <span className="text-secondary mb-1">
-                        {formatCurrency(
-                          item.price -
-                          item.price * item.discountPercentage
+                  <Link key={index} to={path.productDetail.replace(':id', item.id)
+                  }>
+                    <div className=" flex bg-white mt-4 rounded-md items-center gap-3">
+                      <div className="object-cover h-48 w-48 relative p-4 rounded-md overflow-hidden">
+                        <img src={item.image} alt="" />
+                        <span className="absolute top-[0px] right-[0px] bg-secondary text-white p-2 rounded-full shadow-lg text-sm font-bold">- {item.discountPercentage}% </span>
+                      </div>
+                      <div className="flex flex-col gap-2 flex-grow">
+                        <span>Mã sản phẩm: {item.id}</span>
+                        <span>{item.title}</span>
+                        <span>Số lượng còn lại : {item.quantity}</span>
+                      </div>
+                      <div className="w-40 flex justify-end">
+                        {item.discountPercentage ? (
+                          <span className="text-decoration-line-through">
+                            {item.price}{" "}
+                          </span>
+                        ) : (
+                          <></>
                         )}
-                      </span>
+                        <span className="text-secondary mb-1">
+                          {formatCurrency(
+                            item.price -
+                            item.price * item.discountPercentage
+                          )}
+                        </span>
+                      </div>
+                      <div className="flex gap-2 mr-4">
+                        <button onClick={() => showProductModal(item)} className="bg-primary rounded-full text-white h-8 px-4 py-1">Sửa thông tin</button>
+
+                        <Popconfirm
+                          title=""
+                          description="Bạn có chắc muốn xóa sản phẩm này"
+                          icon={<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+                          </svg>
+                          }
+                          onConfirm={confirmDelete}
+                          onCancel={cancelDelete}
+                          okText="Xóa"
+                          cancelText="Hủy"
+                        >
+                          <button className="bg-secondary rounded-full text-white h-8 px-4 py-1">Xóa</button>
+                        </Popconfirm>
+
+                      </div>
+
                     </div>
-                    <div className="flex gap-2 mr-4">
-                      <button onClick={()=>showProductModal(item)} className="bg-primary rounded-full text-white h-8 px-4 py-1">Sửa thông tin</button>
-                      <button className="bg-secondary rounded-full text-white h-8 px-4 py-1">Xóa</button>
-                    </div>
-                    
-                  </div>
+                  </Link>
                 ))}
                 <ProductForm open={isModalOpen} product={selectedProduct} onSubmit={handleUpdateOk} onClose={handleModalCancel} />
               </div>

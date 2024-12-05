@@ -148,7 +148,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`h-full rounded-lg sticky top-0 bg-white text-gray transition-all duration-300 ${
+      className={`h-full pb-10  rounded-lg sticky top-0 bg-white text-gray transition-all duration-300 ${
         isCollapsed ? "w-20" : "w-64"
       }`}
     >
