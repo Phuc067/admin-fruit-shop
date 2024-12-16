@@ -51,11 +51,11 @@ export default function StateAction({ order, onAction }) {
   const buttonsForState = stateButtons[order.state] || [];
 
   return (
-    <div className="w-full flex justify-between py-4 pr-10 pl-2">
-      <div className="flex items-center">
+    <div className="w-full flex justify-between py-4 pr-10 pl-2 gap-2 flex-wrap">
+      <div className="flex items-center flex-shrink-0">
         <StateInfo order={order} />
       </div>
-      <div className="flex gap-2">
+      <div className="flex gap-2 flex-shrink-0 justify-end flex-grow">
         {buttonsForState.map((button, index) => (
           <Button
             key={index}

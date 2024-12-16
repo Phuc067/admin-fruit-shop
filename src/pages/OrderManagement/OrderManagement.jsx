@@ -83,7 +83,7 @@ export default function OrderManagement() {
                           </span>
                           <span>x{orderDetail.quantity}</span>
                         </div>
-                        <div className="flex items-center gap-2 mr-3 md:mr-10">
+                        <div className="flex items-center gap-2 mr-10">
                           {orderDetail.price !== orderDetail.salePrice && (
                             <span className="line-through">
                               {formatCurrency(orderDetail.price)}

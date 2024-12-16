@@ -1,16 +1,16 @@
 import { useState, useEffect, useContext } from "react";
 import { Modal, Result } from "antd";
-import Input from "../../../components/Input"
-import Button from "../../../components/Button";
+import Input from "../../../../components/Input"
+import Button from "../../../../components/Button";
 import PropTypes from "prop-types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { toast } from "react-toastify";
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { validationSchemas } from "../../../validations/ValidationSchemas"
+import { validationSchemas } from "../../../../validations/ValidationSchemas"
 import { useForm } from "react-hook-form";
-import categoryAPi from "../../../apis/category.api";
+import categoryAPi from "../../../../apis/category.api";
 
 const schema = yup.object({
   firstName: validationSchemas.firstName,
