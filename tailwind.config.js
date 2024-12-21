@@ -10,19 +10,27 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // primary: "#f36f40",
-        // secondary:"#FFFFFF",
+        // primary: "#E2F0D9",
+        // secondary:"#FFE0B2",
         // tertiary: '#640d9a'
 
-        primary:"#28a745",
-        secondary:"#ee4d2d",
+        primary: {
+          DEFAULT: "#3BB34B",
+          light: "#90BE6D"
+        },
+        secondary: {
+          DEFAULT: "#BA1200", 
+          light: "#F56476"
+        }
+          ,
+
         // secondary:"#f8c146",
-        background:"#F1F2F3",
-        gray:"#333333",
+        background: "#F1F2F3",
+        gray: "#333333",
         smokeBlack: "#0000008A"
       },
       fontFamily: {
-        sans: ['Poppins', 'sans-serif'], 
+        sans: ['Poppins', 'sans-serif'],
       },
       boxShadow: {
         ct: '0 0 50px rgba(255, 255, 255, 0.4)',

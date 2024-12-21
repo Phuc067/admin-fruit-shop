@@ -1,4 +1,5 @@
 import axios from "axios";
+import dayjs from "dayjs";
 import { HttpStatusCode } from "axios";
 
 export function isAxiosError(error){
@@ -25,7 +26,7 @@ export function formatCurrency(num) {
   if (num || num === 0) {  
     const number = parseFloat(num); 
     if (!isNaN(number)) {  
-      return `${number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}đ`;
+      return `${number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} đ`;
     }
   }
   return '0đ';
@@ -44,11 +45,12 @@ export function maskPhone(phone){
 
 export async function generateHash(file) {
   const arrayBuffer = await file.arrayBuffer();
-  const hashBuffer = await crypto.subtle.digest('SHA-256', arrayBuffer);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", arrayBuffer);
   return Array.from(new Uint8Array(hashBuffer))
-    .map(b => b.toString(16).padStart(2, '0'))
-    .join('');
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
 }
+
 
 export function composeQueryUrl(url, params = {}) {
   const searchParams = new URLSearchParams(
@@ -81,4 +83,12 @@ export const formatTime = (time) => {
   const formattedDate = `${timePart} ${day}/${month}/${year}`;
 
   return formattedDate;
+}
+
+export function formatDateMinus7Hours(date) {
+  const formattedDate = dayjs(date);
+  if (formattedDate.isValid()) {
+    return formattedDate.subtract(7, 'hour');
+  }
+  return null;
 }

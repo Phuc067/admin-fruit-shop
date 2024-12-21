@@ -51,7 +51,7 @@ export default function OrderManagement() {
 
   return (
     <>
-      <div className="mx-3 bg-white w-full mb-4 ">
+      <div className="ml-3 bg-white w-full mb-4 ">
         <OrderNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
         <div className="w-full bg-background ">
           {isLoading ? (

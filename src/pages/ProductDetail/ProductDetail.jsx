@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useParams } from 'react-router-dom';
 import productApi from "../../apis/product.api";
 import { Popconfirm } from "antd";
-import ProductForm from "../ProductManagement/components";
+import ProductForm from "../ProductManagement/components/ProductForm";
 import Loading from "../../components/Loading";
 import { formatCurrency, formatTime } from "../../utils/utils";
 export default function ProductDetail() {
@@ -45,7 +45,7 @@ export default function ProductDetail() {
   };
   return <>
     {isLoading && <Loading />}
-    {product ? <div className="mx-3 bg-white w-full rounded-md">
+    {product ? <div className="ml-3 bg-white w-full rounded-md">
       <div className="flex flex-col md:flex-row border-b border-background">
         <div className="w-full md:w-2/5 p-5  md:border-r border-background">
           <img
@@ -65,23 +65,24 @@ export default function ProductDetail() {
           </div>
           <div className="flex items-center gap-2 mt-5">
             <span className="font-semibold">Giá:</span>
-            <span className="text-xl font-semibold text-primary">{formatCurrency(product.price)}</span>
+            <span className="text-xl font-semibold text-secondary">{formatCurrency(product.price)}</span>
           </div>
           {product.discountPercentage > 0 &&
             (
               <>
                 <div>
-                  <div>
+                  <div className="mt-4">
                     <span className="font-semibold">Giảm giá: </span>
-                    <span className="text-xl font-semibold text-primary">product.discountPercentage</span>
+                    <span className="text-xl font-semibold text-primary">{product.discountPercentage} %</span>
                   </div>
-                  <div>
-                    <span className="font-semibold">Thời gian hết hạn: </span>
+                  <div className="mt-4">
+                    <span className="font-semibold">Thời gian hết hạn giảm giá: </span>
                     <span className="text-xl font-semibold text-secondary"> {formatTime(product.discountExpired)}</span>
                   </div>
                 </div>
-                <div>
-                  <span className="text-lg line-through text-gray-500">
+                <div className="mt-4">
+                <span className="font-semibold">Giá sau khi giảm: </span>
+                  <span className="text-lg   text-primary">
                     {product.price * (1 - product.discountPercentage / 100)} VND
                   </span>
 
@@ -92,6 +93,9 @@ export default function ProductDetail() {
 
           <div className="mt-5 text-gray-600">
             <span className="font-semibold">Số lượng còn lại:</span> {product.quantity}
+          </div>
+          <div className="mt-5 text-gray-600">
+            <span className="font-semibold">Đơn vị tính: </span> KG
           </div>
 
           <div className="flex items-center mt-5 gap-4">

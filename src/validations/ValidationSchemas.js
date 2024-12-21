@@ -19,10 +19,10 @@ export const validationSchemas = {
     .required("Vui lòng nhập mật khẩu")
     .min(3, "Mật khẩu phải có ít nhất 3 ký tự"),
   email: yup
-  .string()
-  .required("Vui lòng nhập email")
-  .matches(/^\S+@\S+\.\S+$/, "Email không hợp lệ")
-  .max(100, "Email quá dài"),
+    .string()
+    .required("Vui lòng nhập email")
+    .matches(/^\S+@\S+\.\S+$/, "Email không hợp lệ")
+    .max(100, "Email quá dài"),
   phone: yup
     .string()
     .required("Vui lòng nhập số điện thoại")
@@ -30,4 +30,8 @@ export const validationSchemas = {
   date: yup
     .date()
     .required("Vui lòng chọn ngày"),
+  value: yup
+    .number()
+    .typeError("Vui lòng nhập giá trị")
+    .positive("Giá trị phải lớn hơn 0"),
 };

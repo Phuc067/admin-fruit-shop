@@ -5,21 +5,28 @@ import { generateHash } from "../../utils/utils";
 
 export async function uploadImageToFS(img) {
   try {
-    const hash = generateHash(img); 
+    if (img instanceof Promise) {
+      console.warn("Resolving img Promise...");
+      img = await img;
+    }
+
+    const hash = await generateHash(img); 
     const filePath = `files/${hash}`; 
     const imgRef = ref(imageDb, filePath);
 
     const exists = await checkImageExists(filePath);
     if (exists) {
       const downloadURL = await getDownloadURL(imgRef);
+      console.log("Image exists, URL:", downloadURL);
       return downloadURL;
     }
 
     await uploadBytes(imgRef, img);
     const downloadURL = await getDownloadURL(imgRef);
+    console.log("Uploaded image URL:", downloadURL);
     return downloadURL;
   } catch (error) {
-    console.error("Lỗi khi upload ảnh:", error);
+    console.error("Error during image upload:", error);
     throw error;
   }
 }
@@ -46,17 +53,22 @@ export async function deleteImageFromFS(filePath) {
 }
 
 
-const checkImageExists = async (filePath) => {
+export async function checkImageExists(filePath) {
   try {
-    const fileRef = ref(imageDb, filePath);
-    const metadata = await getMetadata(fileRef);
-    console.log("File exists:", metadata);
-    return true;
+    const imgRef = ref(imageDb, filePath);
+    console.log('Checking file path:', filePath);
+    const exists = await getMetadata(imgRef)
+      .then(() => true)
+      .catch((error) => {
+        if (error.code === 'storage/object-not-found') {
+          return false;
+        }
+        throw error;
+      });
+    
+    return exists;
   } catch (error) {
-    if (error.code === "storage/object-not-found") {
-      return false;
-    } else {
-      console.error("Error checking file existence:", error);
-    }
+    console.error('Error checking file existence:', error);
+    return false;
   }
 }

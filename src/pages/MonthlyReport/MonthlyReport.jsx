@@ -8,6 +8,7 @@ import reportApi from '../../apis/report.api';
 import dayjs from 'dayjs';
 import Loading from '../../components/Loading';
 import { Line } from '@ant-design/charts';
+import { formatCurrency } from '../../utils/utils';
 
 const schema = yup.object({
   date: validationSchemas.date,
@@ -72,21 +73,21 @@ export default function MonthlyReport() {
           <div className='flex flex-col'>
             <Line {...config} />
             <div className="flex  items-center gap-4 p-4">
-              <div className="bg-white flex gap-3 shadow-md rounded-lg w-full max-w-md p-6 text-center">
+              <div className="bg-white flex gap-3 shadow-md rounded-lg w-full max-w-md p-6 text-center flex-col">
                 <h3 className="text-lg font-semibold text-gray-700">Tổng số đơn hàng</h3>
                 <p className="text-2xl font-bold text-green-600">{data.total}</p>
               </div>
-              <div className="bg-white flex gap-3 shadow-md rounded-lg w-full max-w-md p-6 text-center">
+              <div className="bg-white flex gap-3 shadow-md rounded-lg w-full max-w-md p-6 text-center flex-col">
                 <h3 className="text-lg font-semibold text-gray-700">Số đơn đã hủy</h3>
                 <p className="text-2xl font-bold text-red-500">{data.countOfCancel}</p>
               </div>
-              <div className="bg-white flex gap-3 shadow-md rounded-lg w-full max-w-md p-6 text-center">
+              <div className="bg-white flex gap-3 shadow-md rounded-lg w-full max-w-md p-6 text-center flex-col">
                 <h3 className="text-lg font-semibold text-gray-700">Doanh thu dự kiến</h3>
-                <p className="text-2xl font-bold text-purple-600">{data.projectedRevenue}</p>
+                <p className="text-2xl font-bold text-purple-600">{formatCurrency(data.projectedRevenue)}</p>
               </div>
-              <div className="bg-white flex gap-3 shadow-md rounded-lg w-full max-w-md p-6 text-center">
-                <h3 className="text-lg font-semibold text-gray-700">Doanh thu thực tế</h3>
-                <p className="text-2xl font-bold text-blue-600">{data.actualRevenue}</p>
+              <div className="bg-white flex gap-3 shadow-md rounded-lg w-full max-w-md p-6 text-center flex-col">
+                <h3 className="text-lg  font-semibold text-gray-700">Doanh thu thực tế</h3>
+                <p className="text-2xl flex-grow font-bold text-blue-600">{formatCurrency(data.actualRevenue)}</p>
               </div>
               
             </div>

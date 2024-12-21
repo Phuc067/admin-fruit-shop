@@ -1,11 +1,50 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { match } from 'path-to-regexp';
 import path from "../../constants/path";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [activeTab, setActiveTab] = useState("orders");
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState(null);
   const [isReportsOpen, setReportsOpen] = useState(false);
+
+  const handleTabClick = (tabId) => {
+    setActiveTab(tabId);
+  };
+
+  useEffect(() => {
+    if (activeTab === null) {
+      const currentPath = location.pathname;
+  
+      const foundTab = Object.keys(path).find((key) => {
+        const pathPattern = path[key];
+        const matcher = match(pathPattern, { decode: decodeURIComponent });
+        return matcher(currentPath);
+      });
+  
+      if (foundTab) {
+        setActiveTab(foundTab);
+      }
+    }
+  }, [location.pathname, activeTab]); 
+  
+  useEffect(() => {
+    const flatMenuItems = menuItems.reduce((acc, item) => {
+      acc.push(item); 
+      if (item.children) {
+        acc.push(...item.children); 
+      }
+      return acc;
+    }, []);
+  
+    const menuItem = flatMenuItems.find((item) => item.id === activeTab);
+    if (menuItem) {
+      navigate(menuItem.link);
+    }
+  }, [activeTab]);
+
 
   const menuItems = [
     {
@@ -31,7 +70,7 @@ const Sidebar = () => {
 
     },
     {
-      id: "orders",
+      id: "orderManagement",
       label: "Đơn hàng",
       link: path.orderManagement,
       icon: (
@@ -40,6 +79,7 @@ const Sidebar = () => {
           height="24"
           viewBox="0 0 24 24"
           width="24"
+          fill="currentColor"
         >
           <path d="M0 0h24v24H0z" fill="none" />
           <path d="M19 5v14H5V5h14m1.1-2H3.9c-.5 0-.9.4-.9.9v16.2c0 .4.4.9.9.9h16.2c.4 0 .9-.5.9-.9V3.9c0-.5-.5-.9-.9-.9zM11 7h6v2h-6V7zm0 4h6v2h-6v-2zm0 4h6v2h-6zM7 7h2v2H7zm0 4h2v2H7zm0 4h2v2H7z" />
@@ -47,7 +87,7 @@ const Sidebar = () => {
       ),
     },
     {
-      id: "products",
+      id: "productManagement",
       link: path.productManagement,
       label: "Sản phẩm",
       icon: (
@@ -56,6 +96,7 @@ const Sidebar = () => {
           height="24"
           viewBox="0 0 24 24"
           width="24"
+          fill="currentColor"
         >
           <path d="M0 0h24v24H0V0z" fill="none" />
           <path d="M20 2H4c-1 0-2 .9-2 2v3.01c0 .72.43 1.34 1 1.69V20c0 1.1 1.1 2 2 2h14c.9 0 2-.9 2-2V8.7c.57-.35 1-.97 1-1.69V4c0-1.1-1-2-2-2zm-5 12H9v-2h6v2zm5-7H4V4l16-.02V7z" />
@@ -63,9 +104,9 @@ const Sidebar = () => {
       ),
     },
     {
-      id: "discounts",
+      id: "discountManagement",
       label: "Giảm giá",
-      link :path.discountManagement,
+      link: path.discountManagement,
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -101,8 +142,8 @@ const Sidebar = () => {
       ),
       children: [
         {
-          id: "monthly-report",
-          link : path.monthlyReport,
+          id: "monthlyReport",
+          link: path.monthlyReport,
           label: "Doanh thu theo tháng",
           icon: (
             <svg
@@ -122,7 +163,7 @@ const Sidebar = () => {
           ),
         },
         {
-          id: "product-sales",
+          id: "productReport",
           label: "Số lượng sản phẩm bán được",
           link: path.productReport,
           icon: (
@@ -146,11 +187,14 @@ const Sidebar = () => {
     },
   ];
 
+
+
   return (
     <div
-      className={`h-full pb-10  rounded-lg sticky top-0 bg-white text-gray transition-all duration-300 ${
-        isCollapsed ? "w-20" : "w-64"
-      }`}
+      className={`h-full pb-10  rounded-lg sticky top-0 bg-white text-gray transition-all duration-300 ${isCollapsed ? "w-20" : "w-64"
+        }`}
+      onMouseEnter={() => setIsCollapsed(false)}
+      onMouseLeave={() => setIsCollapsed(true)}
     >
       <div className="p-4">
         <button
@@ -158,7 +202,7 @@ const Sidebar = () => {
             setIsCollapsed(!isCollapsed);
             setReportsOpen(false);
           }}
-          className="bg-gray-700 p-2 rounded hover:bg-gray-600 focus:outline-none"
+          className="bg-gray-700 p-2  transition-all duration-300 ease-in-out transform hover:scale-105 rounded hover:bg-gray-600 focus:outline-none"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -188,75 +232,70 @@ const Sidebar = () => {
                       if (isCollapsed) setIsCollapsed(false);
                       setReportsOpen(!isReportsOpen);
                     }}
-                    className={`flex items-center gap-4 w-full py-2 px-4 rounded transition-all ${
-                      activeTab === item.id
-                        ? "bg-gray-700"
+                    className={`flex items-center gap-4 w-full py-2 px-4 rounded transition-all duration-300 ease-in-out transform hover:scale-105 ${activeTab === item.id || (item.children?.some(child => child.id === activeTab))
+                        ? "bg-gray-700 text-primary"
                         : "hover:bg-gray-700"
-                    }`}
+                      }`}
                   >
-                    <div className="flex items-center space-x-2 whitespace-nowrap">
+                    <div className="flex items-center space-x-2  whitespace-nowrap relative">
                       <span className="material-icons">{item.icon}</span>
                       {!isCollapsed && <span>{item.label}</span>}
                     </div>
-                    {!isCollapsed && (
-                      <span
-                        className={`transform transition-transform duration-300 ${
-                          isReportsOpen ? "rotate-90" : "rotate-0"
+                    <span
+                      className={`absolute ${isCollapsed ? "" : "right-3"} transform transition-transform duration-300 ${isReportsOpen ? "rotate-90" : "rotate-0"
                         }`}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="size-6"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="currentColor"
-                          className="size-6"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="m8.25 4.5 7.5 7.5-7.5 7.5"
-                          />
-                        </svg>
-                      </span>
-                    )}
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="m8.25 4.5 7.5 7.5-7.5 7.5"
+                        />
+                      </svg>
+                    </span>
+
                   </button>
                   <div
-                    className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                      isReportsOpen ? "max-h-40" : "max-h-0"
-                    }`}
+                    className={`overflow-hidden transition-all duration-300 ease-in-out ${isReportsOpen ? "max-h-40" : "max-h-0"
+                      }`}
                   >
-                    <ul className="ml-4 space-y-2 mt-3">
+                    <ul className={`transition-all duration-300 ${isCollapsed ? "ml-2" : "ml-4"
+                      }`}>
                       {item.children.map((child) => (
-                        <li key={child.id}>
-                          <Link to={child.link}
-                            onClick={() => setActiveTab(child.id)}
-                            className={`w-full flex text-left px-2 gap-1 rounded  whitespace-nowrap${
-                              activeTab === child.id
-                                ? "bg-gray-700"
-                                : "hover:bg-gray-700"
-                            }`}
+                        <li key={child.id} className="pt-4">
+                          <div
+                            onClick={() => handleTabClick(child.id)}
+                            className={`w-full flex cursor-pointer text-left px-2 gap-1 rounded transition-all duration-300 ease-in-out transform hover:scale-105  whitespace-nowrap${activeTab === child.id
+                              ? "bg-gray-700 text-primary"
+                              : "hover:bg-gray-700"
+                              }`}
                           >
                             <span>{child.icon}</span>
-                            {child.label}
-                          </Link>
+                            {!isCollapsed && child.label}
+                          </div>
                         </li>
                       ))}
                     </ul>
                   </div>
                 </>
               ) : (
-                <Link to={item.link}
-                  onClick={() => setActiveTab(item.id)}
-                  className={`flex items-center space-x-2 py-2 px-4 w-full rounded ${
-                    activeTab === item.id ? "bg-gray-700" : "hover:bg-gray-700"
-                  }`}
+                <div
+                  onClick={() => handleTabClick(item.id)}
+                  className={`flex items-center space-x-2 cursor-pointer py-2 px-4 w-full rounded transition-all duration-300 ease-in-out transform hover:scale-105 ${activeTab === item.id ? "bg-gray-700 text-primary" : "hover:bg-gray-700"
+                    }`}
                 >
                   <span>{item.icon}</span>
                   {!isCollapsed && (
                     <span className="whitespace-nowrap">{item.label}</span>
                   )}
-                </Link>
+                </div>
               )}
             </li>
           ))}
